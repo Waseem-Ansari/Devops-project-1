@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    networks:
+      - app-net
+
+  backend:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: myapp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-net
+    # NO ports here - not exposed to internet
+volumes:
+  db-data:
+  
+networks:
+  app-net:
+    driver: bridge
