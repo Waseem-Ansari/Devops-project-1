@@ -1,0 +1,1 @@
+I built a three-tier application using Docker Compose — nginx as a reverse proxy, Flask as the backend API, and Postgres as the database. They communicate over an isolated Docker network, secrets are injected via environment variables, and the database uses a named volume for persistence. Postgres has a healthcheck so Flask only starts after the database is actually ready.
