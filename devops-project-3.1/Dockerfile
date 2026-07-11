@@ -2,7 +2,7 @@
 #Stage 1: Builder
 
 FROM python:3.11-slim AS builder
-
+#set work dir
 WORKDIR /app
 
 #install Dependencies into a separate folder
