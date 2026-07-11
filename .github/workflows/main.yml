@@ -10,6 +10,9 @@ on:
         branches: [ main ]
         paths:
             - 'devops-project-3.1/**'
+defaults:
+  run:
+    working-directory: devops-project-3.1
 
 #what does it do?
 jobs:
@@ -29,14 +32,11 @@ jobs:
                 python-version: '3.11'
             #step 3: Install dependencies
             - name: Install dependencies
-              run: |
-               cd devops-project-3.1
-               pip install flask psycopg2-binary
+              run: pip install flask psycopg2-binary
 
             #step 4: Run tests
             - name: Run Tests
               run: |
-               cd devops-project-3.1
                echo "Test passed"
                python -c "from app.app import app; print('App imports OK')"
 
