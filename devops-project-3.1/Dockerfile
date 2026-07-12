@@ -29,7 +29,7 @@ COPY app/ .
 RUN chown -R appuser:appuser /app
 
 USER appuser
-
+# exposing on port 5000
 EXPOSE 5000
 
 CMD ["python", "app.py"]
