@@ -15,8 +15,9 @@ def get_db():
 @app.route("/")
 def home():
     return jsonify({
-        "message": "DevOps API is running!",
-        "engineer": "Your Name Here"
+        "message": "DevOps CI/CD is working!",
+        "Version": "2.0",
+        "engineer": "Waseem Ansari"
     })
  
 @app.route("/health")
