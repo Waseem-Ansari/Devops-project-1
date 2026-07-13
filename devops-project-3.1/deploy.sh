@@ -15,6 +15,7 @@ echo "Stopping and removing existing container..."
 docker compose down
 
 # Start the new container with the latest image
+echo "Starting new container with the latest image..."
 docker compose up -d
 
 echo "Deployment completed successfully!"
