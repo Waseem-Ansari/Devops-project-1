@@ -79,6 +79,7 @@ jobs:
                 username: ${{ secrets.EC2_USER }}
                 key: ${{ secrets.EC2_SSH_KEY }}
                 script: |
+                  cd ~/devops-project-3.1
                   docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:latest
                   docker compose down
                   DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d 
