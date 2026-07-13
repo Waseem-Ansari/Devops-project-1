@@ -80,8 +80,8 @@ jobs:
                 key: ${{ secrets.EC2_SSH_KEY }}
                 script: |
                   docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:latest
-                  docker-compose down
-                  DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose up -d 
+                  docker compose down
+                  DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d 
                   echo "Deployment completed successfully"
                   
       
