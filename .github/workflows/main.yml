@@ -73,7 +73,7 @@ jobs:
         needs: build-and-push  #only run when build-and-push job passes
         steps:
             - name: Deploy via SSH
-              uses: appleboy/ssh-action@v0.1.6
+              uses: appleboy/ssh-action@v1.0.0
               with:
                 host: ${{ secrets.EC2_HOST }}
                 username: ${{ secrets.EC2_USER }}
