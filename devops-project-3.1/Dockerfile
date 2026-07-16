@@ -16,7 +16,7 @@ FROM python:3.11-slim AS production
 
 #Don't  run as root - security best practice
 RUN useradd -m -u 1000 appuser
-
+#set Work dir
 WORKDIR /app
 
 #Copy only installed packages from builder image 
