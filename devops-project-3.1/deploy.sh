@@ -3,7 +3,7 @@
  set -e
 
  echo "Starting deployment process..."
-
+#change working Dir
  cd ~/devops-project-3.1
 
 # Pull latest image from Docker Hub (match workflow image name)
