@@ -81,7 +81,7 @@ jobs:
                 script: |
                   set -e  
                   # explicitly go to correct folder
-                  cd /home/ubuntu/devops-project-3.1
+                  cd ~/Devops-project-1/devops-project-3.1
                   # Verify docker-compose.yml exists
                   ls docker-compose.yml
                   #pull and deploy
