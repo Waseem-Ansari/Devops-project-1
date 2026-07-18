@@ -75,6 +75,7 @@ jobs:
  
             # go to staging folder
             cd ~/Devops-project-1/devops-project-3.1
+            git checkout Dev
  
             # login to pull new image
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
