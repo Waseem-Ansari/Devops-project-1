@@ -1,0 +1,93 @@
+name: Staging Pipeline
+ 
+on:
+  push:
+    # only triggers when pushing to dev branch
+    branches: [ Dev ]
+    paths:
+      - 'devops-project-3.1/**'
+ 
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+ 
+    steps:
+      # download repo code onto GitHub's VM
+      - uses: actions/checkout@v3
+ 
+      # setup python 3.11 on the VM
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+ 
+      # install required packages
+      - name: Install dependencies
+        run: |
+          cd devops-project-3.1
+          pip install flask psycopg2-binary
+ 
+      # verify app can be imported correctly
+      - name: Run tests
+        run: |
+          cd devops-project-3.1
+          python -c "import flask; print('Tests passed ✅')"
+ 
+  build-and-push-staging:
+    name: Build Staging Image
+    runs-on: ubuntu-latest
+    needs: test
+    # only runs if test job passed
+ 
+    steps:
+      - uses: actions/checkout@v3
+ 
+      # login to docker hub using stored secrets
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+ 
+      # build image with 'staging' tag — different from production 'latest'
+      - name: Build and push staging image
+        run: |
+          cd devops-project-3.1
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-app:staging .
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+ 
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-push-staging
+    # only runs after image is successfully pushed
+ 
+    steps:
+      - name: Deploy to staging via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_STAGING_HOST }}
+          username: ${{ secrets.EC2_STAGING_USER }}
+          key: ${{ secrets.EC2_STAGING_SSH_KEY }}
+          script: |
+            # stop immediately if any command fails
+            set -e
+ 
+            # go to staging folder
+            cd ~/Devops-project-1/devops-project-3.1
+ 
+            # login to pull new image
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
+              -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+ 
+            # pull latest staging image
+            docker pull ${{ secrets.DOCKER_USERNAME }}/devops-app:staging
+ 
+            # restart staging containers
+            docker compose down
+            docker compose up -d
+ 
+            # verify staging is running
+            docker compose ps
+ 
+            echo "✅ Deployed to STAGING successfully!"
