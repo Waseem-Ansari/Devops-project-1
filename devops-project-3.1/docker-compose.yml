@@ -20,6 +20,7 @@ services:
   flask-api:
     image: ${DOCKER_USERNAME}/devops-app:latest
     environment:
+      APP_ENV: ${APP_ENV}
       DB_HOST: ${DB_HOST}
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}

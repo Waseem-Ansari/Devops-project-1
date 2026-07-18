@@ -15,8 +15,9 @@ def get_db():
 @app.route("/")
 def home():
     return jsonify({
-        "message": "DevOps CI/CD is working!",
-        "Version": "2.0",
+        "message": "DevOps App is working!",
+        "environment": os.environ.get("APP_ENV", "Production"),
+        "Version": "4.0",
         "engineer": "Waseem Ansari"
     })
  
