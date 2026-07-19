@@ -116,61 +116,16 @@ jobs:
                      "value": "${{ github.ref_name }}",
                      "short": true
                     },
-
                     {
                      "title": "Deployed By",
                      "value": "${{ github.actor }}",
                      "short": true
                     },
-
                     {
-                     "title": "Commit Message",
-                     "value": "${{ github.event.head_commit.message }}",
+                     "title": "Commit",
+                     "value": "${{ github.sha }}",
                      "short": false
                     },
-
-                    {
-                     "title": "Pipeline",
-                     "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id}}",
-                     "short": false
-                    }
-                   ]
-                  }
-                 ]  
-                }'
-         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-      #send failure message if deploy failed
-       - name: Notify Failure
-         if: ${{ needs.deploy.result == 'failure' }}
-         uses: slackapi/slack-github-action@v1.24.0
-         with:
-            payload: |
-             '{ 
-               "text": "Production Deployment FAILED!",
-               "attachments": [
-               {
-                 "color": "danger",
-                 "fields": [
-                   {
-                     "title": "Branch",
-                     "value": "${{ github.ref_name }}",
-                     "short": true
-                    },
-
-                    {
-                     "title": "Triggered By",
-                     "value": "${{ github.actor }}",
-                     "short": true
-                    },
-
-                    {
-                     "title": "Commit Message",
-                     "value": "${{ github.event.head_commit.message }}",
-                     "short": false
-                    },
-
                     {
                      "title": "Pipeline",
                      "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id}}",
@@ -180,6 +135,40 @@ jobs:
                   }
                  ]  
                 }
+         env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      #send failure message if deploy failed
+       - name: Notify Failure
+         if: ${{ needs.deploy.result == 'failure' }}
+         uses: slackapi/slack-github-action@v1.24.0
+         with:
+            payload: |
+             { 
+               "text": "Production Deployment FAILED!",
+               "attachments": [
+                {
+                  "color": "danger",
+                  "fields": [
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                     "title": "Triggered By",
+                     "value": "${{ github.actor }}",
+                     "short": true
+                    },
+                    {
+                     "title": "Check Pipeline Immediately",
+                     "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id}}",
+                     "short": false
+                    }
+                  ]
+                 }
+               ]   
+             }
          env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
