@@ -125,7 +125,7 @@ jobs:
 
                     {
                      "title": "Commit Message",
-                     "value": "${{ github.event.head_commit.message }}",
+                     "value": ${{ toJSON(github.event.head_commit.message) }},
                      "short": false
                     },
 
@@ -167,7 +167,7 @@ jobs:
 
                     {
                      "title": "Commit Message",
-                     "value": "${{ github.event.head_commit.message }}",
+                     "value": ${{ toJSON(github.event.head_commit.message) }},
                      "short": false
                     },
 
