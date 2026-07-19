@@ -1,7 +1,7 @@
 #!/bin/bash
  
  set -e
-
+##############
  echo "Starting deployment process...."
 #change working Dir
  cd ~/devops-project-3.1
