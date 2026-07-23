@@ -1,0 +1,39 @@
+#tells Kubernetes which API version handles Deployment objects
+apiVersion: apps/v1
+
+#type of resource we are creating
+kind: Deployment 
+
+#metadata about the deployment object
+metadata:
+  #name of the deployment object
+  name: nginx-deployment
+  #labels are key-value pairs for organizing and selecting resources
+  labels:
+    app: nginx  
+
+#deployment specification what we actually want to deploy
+spec:
+  #number of desired pods
+  replicas: 3
+  #selector to identify the pods managed by this deployment
+  selector:
+    matchLabels:
+      app: nginx
+  #template for the pods that will be created by this deployment
+  template:
+    #metadata for the pods
+    metadata:
+      labels:
+        app: nginx
+    #specification for the containers in the pods
+    spec:
+      containers:
+      #name of the container
+      - name: nginx
+        #container image to use
+        image: nginx:alpine
+        #port that the container exposes
+        ports:
+        - containerPort: 80 
+        
